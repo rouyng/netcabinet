@@ -24,18 +24,25 @@ void setup()
   Setpoint = 80; //Setpoint temp in degrees Fahrenheit
   pinMode(doorPin, INPUT_PULLUP);
   myPID.SetMode(AUTOMATIC);
+  myPID.SetOutputLimits(65, 255); // Set minimum/maximum PWM values for controlling fan speed. Min value should be high enough than the fan will not stall
   myPID.SetControllerDirection(REVERSE);
 }
 
 void loop()
 {
-  if (digitalRead(doorPin) == HIGH){
-    Input = checkTemp();
-    myPID.Compute();
-    analogWrite(PWMA, Output);
+  if (digitalRead(doorPin) == HIGH) 
+  	{
+  		if (checkTemp() > 79) {
+  			Input = checkTemp();
+    		myPID.Compute();
+    		analogWrite(PWMA, Output);
+  		}
+  		else {
+  		   analogWrite(PWMA, 0);
+  		}	
     Serial.print(Output); Serial.print(" PWM output "); Serial.print(tempF); Serial.println(" degrees F");
     ledOff();
-  }
+ 	 }
   else {
     analogWrite(PWMA, 0);
     ledOn();
