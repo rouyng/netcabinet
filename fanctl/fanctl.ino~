@@ -46,7 +46,6 @@ void loop()
     analogWrite(PWMA, 0);
     ledOn();
   }
-  serialLog();
 }
 
 // setupArdumoto shield by initializing all pins
