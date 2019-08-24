@@ -8,9 +8,16 @@ byte doorPin = 2; // digital input pin for door switch
 int sensorPin = A0; // Analog input pin for TMP36 sensor
 int sensorVal = 0;
 int tempF = 0;
-unsigned long timeStep = 5; // Time interval for LED brightness ramping (longer == more gradual ramp)
 int ledBright = 0; // LED brightness PWM value
-long logInterval = 30000; // Time interval for sending logging data over serial connection
+
+
+// Loop timing variables
+unsigned long timeStep = 5; // Time interval for LED brightness ramping (longer == more gradual ramp)
+unsigned long logInterval = 1000; // Time interval for sending logging data over serial connection
+unsigned long currentTime = millis();
+unsigned long lastTime1 = currentTime; 
+unsigned long lastTime2 = currentTime;
+unsigned long lastTime3 = currentTime;
 
 // PID variables
 double Input, Output;
@@ -42,9 +49,10 @@ void loop()
   		}	
     ledOff();
  	 }
-  else {
+  else 
+  {
     analogWrite(PWMA, 0);
-    ledOn();
+    ledOn();	
   }
   serialLog();
 }
@@ -78,13 +86,13 @@ double checkTemp()
 // turn LED strip on with a smooth fade by raising the PWM value
 void ledOn()
 {
-  unsigned long currentTime = millis();
   while (ledBright < 255)
     {
-      if(millis() > currentTime + timeStep){
-	currentTime = millis();
-	ledBright = ledBright + 1;
-	analogWrite(PWMB, ledBright);
+      if(millis() > lastTime1 + timeStep)
+      {
+		lastTime1 = millis();
+		ledBright = ledBright + 1;
+		analogWrite(PWMB, ledBright);
       }
     }
 }
@@ -95,10 +103,11 @@ void ledOff()
   unsigned long currentTime = millis();
   while (ledBright > 0)
     {
-      if(millis() > currentTime + timeStep){
-	currentTime = millis();
-	ledBright = ledBright - 1;
-	analogWrite(PWMB, ledBright);
+      if(millis() > lastTime2 + timeStep)
+      {
+		lastTime2 = millis();
+		ledBright = ledBright - 1;
+		analogWrite(PWMB, ledBright);
       }
     }
 }
@@ -106,27 +115,30 @@ void ledOff()
 // Send log data over serial connection
 void serialLog()
 {
-  unsigned long currentTime = millis();
-  char doorStatus = "";
-  if(millis() >= currentTime + logInterval){
-    currentTime = millis();
+  String doorStatus = "";
+  	if(millis() > lastTime3 + logInterval)
+	  {
+	    lastTime3 = millis();
 
-    // Set doorStatus varible based on whether door switch is open or closed
-    if(digitalRead(doorPin) == HIGH){
-      doorStatus = "CLOSED";
-    }
-    else {
-      doorStatus = "OPEN";
-    }
-
-    //Print log data over serial, comma-separated
-    Serial.print(Output); //PID fan control speed
-    Serial.print(", ");
-    Serial.print(checkTemp()); // Temperature
-    Serial.print(", ");
-    Serial.print(doorStatus); // Door open or closed
-    Serial.print(", ");
-    Serial.print(ledBright); // LED brightness
-    Serial.println(", ");
-  }
+	    // Set doorStatus varible based on whether door switch is open or closed
+	    if(digitalRead(doorPin) == HIGH)
+	    {
+	      doorStatus = "CLOSED";
+	    }
+	    else
+	    {
+	      doorStatus = "OPEN";
+	    }
+	    //Print log data over serial, comma-separated
+	    Serial.print(Output); //PID fan control speed
+	    Serial.print(", ");
+	    Serial.print(tempF); // Temperature
+	    Serial.print(", ");
+	    Serial.print(doorStatus); // Door open or closed
+	    Serial.print(", ");
+	    Serial.print(ledBright); // LED brightness
+	    Serial.print(", ");
+	    Serial.print(lastTime3 / 1000); //print time since program start in seconds
+	    Serial.println(", ");
+	  }
 }
