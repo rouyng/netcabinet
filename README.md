@@ -23,5 +23,5 @@ See /doc for images and fritzing file.
 - MEAN WELL GST25A12-P1J Desktop AC Adapters, 120VAC to 12VDC 2A
 
 ## TODO
-- shell script to log data to Synology NAS over serial connection
+- shell script to log data to Synology NAS over USB serial connection
 - PID loop tuning based on data
