@@ -25,4 +25,3 @@ See /doc for images and fritzing file.
 ## TODO
 - shell script to log data to Synology NAS over serial connection
 - PID loop tuning based on data
-- Photo documentation
