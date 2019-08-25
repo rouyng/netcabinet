@@ -20,7 +20,7 @@ See /doc for images and fritzing file.
 - Sparkfun Ardumoto shield
 - 90mm muffin fan, 12 VDC
 - approx 1' length Hitlights L2012V-401-1030-U 4100K LED light strip. 12 VDC, 2.8 Watts/ft
-- MEAN WELL GST25A12-P1J Desktop AC Adapters, 120VAC to 12VDC 2A
+- MEAN WELL GST25A12-P1J Desktop AC Adapter, 120VAC to 12VDC 2A
 
 ## TODO
 - shell script to log data to Synology NAS over USB serial connection
