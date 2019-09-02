@@ -22,6 +22,10 @@ See /doc for images and fritzing file.
 - approx 1' length Hitlights L2012V-401-1030-U 4100K LED light strip. 12 VDC, 2.8 Watts/ft
 - MEAN WELL GST25A12-P1J Desktop AC Adapter, 120VAC to 12VDC 2A
 
+## Logging
+The Python script found at `log/cabinetlog.py` is designed to log data from the USB serial connection of the Arduino and generate a CSV file. The data logged by the CSV file can be adjusted by changing which variables are printed to the serial connection within `fanctl.ino`.
+
+Tested using Python 3.5.1 running on a Synology DS218+. It may be necessary to run `sudo stty -F /dev/ttyACM0 9600 tostop` (replacing `/dev/ttyACM0` with whatever serial port the Arduino is located  at) in order to prevent other processes from writing to the serial connection and resetting the Arduino.
+
 ## TODO
-- shell script to log data to Synology NAS over USB serial connection
 - PID loop tuning based on data
