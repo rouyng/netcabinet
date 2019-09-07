@@ -7,7 +7,7 @@ byte DIRB = 13; // Polarity control for LED strip on Ardumoto shield
 byte doorPin = 2; // digital input pin for door switch
 int sensorPin = A0; // Analog input pin for TMP36 sensor
 int sensorVal = 0;
-int tempF = 0;
+float tempF = 0;
 int ledBright = 0; // LED brightness PWM value
 
 
@@ -74,7 +74,7 @@ void setupArdumoto()
 }
 
 // return temperature in Fahrenheit from TMP36 sensor
-double checkTemp()
+float checkTemp()
 {
 	int sensorVal = analogRead(sensorPin);
 	float voltage = sensorVal * 5.0;
