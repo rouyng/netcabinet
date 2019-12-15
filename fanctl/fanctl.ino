@@ -31,7 +31,7 @@ void setup()
   Serial.begin(9600); // serial output for debugging
   pinMode(doorPin, INPUT_PULLUP); //As switch is directly attached to pins, we use INPUT_PULLUP to activate the Arduino's internal pullup resistor
   myPID.SetMode(AUTOMATIC);
-  myPID.SetOutputLimits(100, 255); // Set minimum/maximum PWM values for controlling fan speed. Min value should be high enough than the fan will not stall
+  myPID.SetOutputLimits(150, 255); // Set minimum/maximum PWM values for controlling fan speed. Min value should be high enough than the fan will not stall
   myPID.SetControllerDirection(REVERSE);
 }
 
@@ -39,7 +39,7 @@ void loop()
 {
   if (digitalRead(doorPin) == HIGH) //Fan control will only turn on if door is closed
   	{
-  		if (checkTemp() > 79) {
+  		if (checkTemp() > (Setpoint - 0.25)) {
   			Input = checkTemp();
     		myPID.Compute();
     		analogWrite(PWMA, Output);
