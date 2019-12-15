@@ -22,7 +22,7 @@ unsigned long lastTime3 = currentTime;
 // PID variables
 double Input, Output;
 double Kp=3, Ki=0.2, Kd=1; // Change these values to tune PID loop
-double Setpoint = 80; // PID setpoint temp in degrees Fahrenheit
+double Setpoint = 85; // PID setpoint temp in degrees Fahrenheit
 PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
 
 void setup()
@@ -31,7 +31,7 @@ void setup()
   Serial.begin(9600); // serial output for debugging
   pinMode(doorPin, INPUT_PULLUP); //As switch is directly attached to pins, we use INPUT_PULLUP to activate the Arduino's internal pullup resistor
   myPID.SetMode(AUTOMATIC);
-  myPID.SetOutputLimits(65, 255); // Set minimum/maximum PWM values for controlling fan speed. Min value should be high enough than the fan will not stall
+  myPID.SetOutputLimits(100, 255); // Set minimum/maximum PWM values for controlling fan speed. Min value should be high enough than the fan will not stall
   myPID.SetControllerDirection(REVERSE);
 }
 
